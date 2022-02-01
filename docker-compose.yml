@@ -2,14 +2,9 @@ version: "3.7"
 services:
   mysql:
     image: "mysql:8.0"
-    working_dir: /app
     restart: unless-stopped
-    volumes:
-      - ".:/app"
-    env_file:
-      - .env.local
-    ports:
-      - 3306:3306
+    environment:
+      MYSQL_ROOT_PASSWORD: password
     networks:
       - nginx-fpm
 
@@ -31,8 +26,6 @@ services:
     volumes:
       - ".:/app"
       - "./docker/php-fpm/php-ini-overrides.ini:/etc/php/8.1/fpm/conf.d/99-overrides.ini"
-    env_file:
-      - .env.local
     networks:
       - nginx-fpm
 
