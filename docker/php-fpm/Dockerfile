@@ -21,11 +21,14 @@ RUN set -eux; \
     icu-dev \
     libzip-dev \
     zlib-dev \
+    libpq-dev \
   ; \
   \
   docker-php-ext-configure zip; \
   docker-php-ext-install -j$(nproc) \
     pdo_mysql \
+    pdo_pgsql \
+    pgsql \
     intl \
     zip \
   ; \
