@@ -1,18 +1,19 @@
-USER = $(shell whoami)
-UID = $(shell id -u)
+COMPOSER = composer
+DC = docker compose
 GID = $(shell id -g)
-PWD = $(shell pwd)
-NODE_PKG_MNGR = yarn
 NODE = node:lts-slim
-COMPOSER = composer:2
+NODE_PKG_MNGR = yarn
+PWD = $(shell pwd)
+UID = $(shell id -u)
+USER = $(shell whoami)
 
 .PHONY: docker_build
 docker_build:
-	docker-compose build
+	$(DC) build --no-cache
 
 .PHONY: docker_up
 docker_up:
-	docker-compose up
+	$(DC) up --force-recreate --remove-orphans
 
 # use standalone container to avoid root owned vendor directory
 .PHONY: composer_install
@@ -41,12 +42,12 @@ node_watch:
 
 .PHONY: database
 database:
-	docker-compose exec php-fpm composer database
+	$(DC) exec php-fpm composer database
 
 .PHONY: database-dev
 database-dev:
-	docker-compose exec php-fpm composer database-dev
+	$(DC) exec php-fpm composer database-dev
 
 .PHONY: database-test
 database-test:
-	docker-compose exec php-fpm composer database-test
+	$(DC) exec php-fpm composer database-test

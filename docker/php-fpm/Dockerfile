@@ -1,4 +1,4 @@
-FROM php:8.1.2-fpm-alpine3.15
+FROM php:8.2.5-fpm-alpine3.17
 
 RUN apk add --no-cache \
     acl \
@@ -22,6 +22,7 @@ RUN set -eux; \
     libzip-dev \
     zlib-dev \
     libpq-dev \
+    pcre-dev \
   ; \
   \
   docker-php-ext-configure zip; \
@@ -35,6 +36,7 @@ RUN set -eux; \
   \
   pecl install \
     apcu-${APCU_VERSION} \
+    redis \
   ; \
   \
   pecl clear-cache; \
@@ -42,6 +44,7 @@ RUN set -eux; \
     pdo_mysql \
     apcu \
     opcache \
+    redis.so \
   ; \
   \
   runDeps="$( \
