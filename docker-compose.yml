@@ -8,8 +8,6 @@ services:
     ports:
       - "8888:80"
       - "443:443"
-    networks:
-      - nginx-fpm
     depends_on:
       - php-fpm
 
@@ -20,18 +18,11 @@ services:
     volumes:
       - ".:/app"
       - "./docker/php-fpm/php-ini-overrides.ini:/etc/php/8.1/fpm/conf.d/99-overrides.ini"
-    networks:
-      - nginx-fpm
     depends_on:
       - postgres
 
   postgres:
-    image: postgres:13-alpine
+    image: postgres:15-alpine
     restart: unless-stopped
     environment:
       POSTGRES_PASSWORD: password
-    networks:
-      - nginx-fpm
-
-networks:
-  nginx-fpm:
